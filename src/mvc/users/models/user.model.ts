@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { ISchemaType } from '@/interfaces/interface';
 import { CreateSchema } from '../../../helpers/createSchema';
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;

@@ -3,7 +3,7 @@ import { transStrings } from '../../../init/locales';
 import { User } from '../models';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
- 
+
 const UserLogin = (req: Request | any, res: Response) => {
   return User.findOne({
     email: req.body.mobile,
@@ -19,7 +19,6 @@ const UserLogin = (req: Request | any, res: Response) => {
         }),
       });
     } else if (user) {
- 
       bcrypt.compare(req.body.password, user.password, function (err, compRes) {
         if (!compRes) {
           res.status(403).json({
