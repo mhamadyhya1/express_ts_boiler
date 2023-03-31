@@ -20,12 +20,7 @@ export default function (app: Express) {
       },
       (err, t) => {
         if (err) return console.log('something went wrong loading', err);
-        console.log(t('home.title')); 
+        console.log(t('home.title'));
       },
     );
-
-  app.use(
-    i18nextMiddleware.handle(i18next, {
-    }),
-  );
 }
