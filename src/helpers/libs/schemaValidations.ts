@@ -82,6 +82,14 @@ export function textValidationRequired(text?: string) {
     required: true,
   };
 }
+export function textValidationIndexRequired(text?: string) {
+  return {
+    type: String,
+    default: text == null ? '' : text,
+    trim: true,
+    required: true,
+  };
+}
 export function textValidationUniqueRequired(text?: string) {
   return {
     type: String,
@@ -170,6 +178,14 @@ export function emailValidation() {
     required: true,
     validate: [validateEmail, 'Please fill a valid email address'],
     match: [emailRegex, 'Please fill a valid email address'],
+  };
+}
+export function passwordValidation() {
+  return {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 10,
   };
 }
 
