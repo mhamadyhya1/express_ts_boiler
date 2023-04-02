@@ -1,6 +1,7 @@
 import config from '@/config/config';
-import { saveQuery } from '@/helpers/libs/globals/queryHelpers';
+import ApiError from '@/helpers/libs/globals/ApiError';
 import { IUserDoc } from '@/mvc/user/models/interface/IUser';
+import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import moment, { Moment } from 'moment';
 import mongoose from 'mongoose';
@@ -42,4 +43,20 @@ export const generateAuthTokens = async (user: IUserDoc): Promise<{}> => {
       token: refreshToken,
     },
   };
+};
+export const verifyToken = async (token: string, type: string): Promise<ITokenDoc> => {
+  const payload = jwt.verify(token, config.jwt.secret);
+  if (typeof payload.sub !== 'string') {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'bad user');
+  }
+  const tokenDoc = await Token.findOne({
+    token,
+    type,
+    user: payload.sub,
+    blacklisted: false,
+  });
+  if (!tokenDoc) {
+    throw new Error('Token not found');
+  }
+  return tokenDoc;
 };

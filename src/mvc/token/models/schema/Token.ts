@@ -1,4 +1,4 @@
-import { userCollectionName } from '@/helpers/libs/collectionNames';
+import { tokenCollectionName, userCollectionName } from '@/helpers/libs/collectionNames';
 import { mongoIdValidation, textValidationIndexRequired } from '@/helpers/libs/schemaValidations';
 import mongoose, { Schema } from 'mongoose';
 import { IToken } from '../interface/IToken';
@@ -10,4 +10,4 @@ const Token = new Schema<IToken>({
 
 Token.set('toObject', { getters: true, virtuals: true });
 Token.set('toJSON', { getters: true, virtuals: true });
-export default mongoose.model<IToken>('Token', Token, userCollectionName);
+export default mongoose.model<IToken>('Token', Token, tokenCollectionName);

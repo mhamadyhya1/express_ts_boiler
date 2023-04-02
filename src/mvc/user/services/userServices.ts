@@ -1,5 +1,7 @@
+import config from '@/config/config';
 import ApiError from '@/helpers/libs/globals/ApiError';
 import { saveQuery } from '@/helpers/libs/globals/queryHelpers';
+import Token from '@/mvc/token/models/schema/Token';
 import * as argon2 from 'argon2';
 import httpStatus from 'http-status';
 import { ILogin, IUserDoc, NewRegisterUser } from '../models/interface/IUser';
@@ -29,6 +31,13 @@ class UserServices {
       throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
     }
     return user;
+  };
+  logout = async (refreshToken: string): Promise<void> => {
+    const refreshTokenDoc = await Token.findOne({ token: refreshToken, type: config.jwt.secret.REFRESH, blacklisted: false });
+    if (!refreshTokenDoc) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Not found');
+    }
+    await refreshTokenDoc.deleteOne();
   };
 }
 
