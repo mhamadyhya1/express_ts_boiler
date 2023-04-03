@@ -2,10 +2,13 @@ import { BaseModel } from '@/helpers/libs/BaseModel';
 import { IUser } from '@/mvc/user/models/interface/IUser';
 
 export interface IToken extends BaseModel {
-  token: string;
+  token: String;
   user: IUser['_id'];
-  type: string;
+  type: String;
   expires: Date;
 }
 
-export type ITokenDoc = IToken;
+export interface ITokenDoc extends IToken {
+  sub?: String;
+}
+export type ITokenSub = Omit<ITokenDoc, 'sub'>;

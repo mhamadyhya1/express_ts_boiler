@@ -1,3 +1,3 @@
-export const userCollectionName = 'user';
-export const tokenCollectionName = 'token';
-export const roleCollectionName = 'role';
+export const userCollectionName = 'User';
+export const tokenCollectionName = 'Token';
+export const roleCollectionName = 'Role';

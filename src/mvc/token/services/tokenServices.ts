@@ -1,6 +1,7 @@
 import config from '@/config/config';
 import ApiError from '@/helpers/libs/globals/ApiError';
 import { IUserDoc } from '@/mvc/user/models/interface/IUser';
+import userServices from '@/mvc/user/services';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import moment, { Moment } from 'moment';
@@ -44,7 +45,7 @@ export const generateAuthTokens = async (user: IUserDoc): Promise<{}> => {
     },
   };
 };
-export const verifyToken = async (token: string, type: string): Promise<ITokenDoc> => {
+export const verifyToken = async (token: string, type: string): Promise<{}> => {
   const payload = jwt.verify(token, config.jwt.secret);
   if (typeof payload.sub !== 'string') {
     throw new ApiError(httpStatus.BAD_REQUEST, 'bad user');
@@ -53,10 +54,19 @@ export const verifyToken = async (token: string, type: string): Promise<ITokenDo
     token,
     type,
     user: payload.sub,
-    blacklisted: false,
   });
   if (!tokenDoc) {
     throw new Error('Token not found');
   }
   return tokenDoc;
+};
+export const generateResetPasswordToken = async (email: string): Promise<string> => {
+  const user = await userServices.getUserByEmail(email);
+  if (!user) {
+    throw new ApiError(httpStatus.NO_CONTENT, '');
+  }
+  const expires = moment().add(config.resetPassword.resetTokenExpTime, 'minutes');
+  const resetPasswordToken = generateToken(user.id, expires, config.resetPassword.resetPasswordSec);
+  await saveToken(resetPasswordToken, user.id, expires, tokenTypes.RESET);
+  return resetPasswordToken;
 };

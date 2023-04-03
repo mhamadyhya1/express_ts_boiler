@@ -1,4 +1,5 @@
 import { BaseModel } from '@/helpers/libs/BaseModel';
+import { IRole } from '@/mvc/role/models/interface/IRole';
 import mongoose, { Model } from 'mongoose';
 
 export interface IUser extends BaseModel {
@@ -7,15 +8,16 @@ export interface IUser extends BaseModel {
   email: string;
   password: string;
   confirmPassword: string;
-  role: string;
+  role: IRole['_id'];
   isEmailVerified: boolean;
 }
 export interface IUserDoc extends IUser {
   isPasswordMatch(hash: string, password: string): Promise<boolean>;
 }
+export type UpdateUserBody = Partial<IUser>;
 export interface IUserModel extends Model<IUserDoc> {
   isEmailTaken(email: string, excludeUserId?: mongoose.Types.ObjectId): Promise<boolean>;
 }
 export type ILogin = Pick<IUser, 'email' | 'password'>;
 
-export type NewRegisterUser = Omit<IUser, 'role' | 'isEmailVerified'>;
+export type NewRegisterUser = Omit<IUser, 'isEmailVerified'>;

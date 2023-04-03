@@ -13,7 +13,11 @@ export const verifyToken = catchAsync(async (req: Request, res: Response, next: 
 
   const token = authHeader.split(' ')[1];
   const payload = jwt.verify(token, config.jwt.secret.ACCESS) as { sub: string };
-
+  const roleCheck = await User.findById(payload.sub).populate({ path: 'role', select: 'name' });
+  const roleName = roleCheck.role.name;
+  if (roleName !== 'user') {
+    throw new Error('Cannot Access');
+  }
   if (typeof payload.sub !== 'string') {
     throw new Error('Invalid token payload');
   }

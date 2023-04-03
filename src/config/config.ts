@@ -8,6 +8,8 @@ const envVarsSchema = Joi.object()
     PORT: Joi.number().default(3000),
     MONGODB_URL: Joi.string().description('Mongo DB url'),
     JWT_SECRET: Joi.string().required().description('JWT secret key'),
+    RESET_PASSWORD_TOKEN: Joi.string().required().description('Reset Password secret key'),
+    RESET_PASSWORD_EXPIRATION_MINUTES: Joi.number().default(10).description('minutes after which reset tokens expire'),
     JWT_ACCESS_EXPIRATION_MINUTES: Joi.number().default(30).description('minutes after which access tokens expire'),
     JWT_REFRESH_EXPIRATION_DAYS: Joi.number().default(30).description('days after which refresh tokens expire'),
   })
@@ -53,6 +55,10 @@ const config = {
       },
     },
     from: envVars.EMAIL_FROM,
+  },
+  resetPassword: {
+    resetTokenExpTime: envVars.RESET_PASSWORD_EXPIRATION_MINUTES,
+    resetPasswordSec: envVars.RESET_PASSWORD_TOKEN,
   },
   clientUrl: envVars.CLIENT_URL,
 };
