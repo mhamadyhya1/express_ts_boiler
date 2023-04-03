@@ -12,8 +12,6 @@ class UserServices {
     if (await User.isEmailTaken(data.email)) {
       throw new ApiError(400, 'Email already Taken');
     }
-    const hashedPassword = await argon2.hash(data.password);
-    data.password = hashedPassword;
     const request = await saveQuery(new User(data));
     return request;
   }

@@ -6,6 +6,7 @@ export interface IUser extends BaseModel {
   username: string;
   email: string;
   password: string;
+  confirmPassword: string;
   role: string;
   isEmailVerified: boolean;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { userCollectionName } from '@/helpers/libs/collectionNames';
 import { booleanValidation, passwordValidation, textValidationNullable, textValidationRequired } from '@/helpers/libs/schemaValidations';
 import mongoose, { Schema } from 'mongoose';
@@ -16,6 +17,7 @@ const User = new Schema<IUser>({
   },
   isEmailVerified: booleanValidation(false),
   password: passwordValidation(),
+  confirmPassword: textValidationNullable(),
   role: textValidationNullable(),
 });
 
@@ -23,11 +25,26 @@ User.static('isEmailTaken', async function (email: string, excludeUserId: mongoo
   const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
   return !!user;
 });
-User.static('isPasswordMatch', async function (hash: string, password: string): Promise<boolean> {
-  const user = await argon.verify(hash, password);
-  return !!user;
-});
 
+User.pre<IUser>('save', async function (next) {
+  const user = this;
+  // Check if password or confirmPassword is modified before saving
+  if (!user.isModified('password') && !user.isModified('confirmPassword')) {
+    return next();
+  }
+
+  // Check if passwords match
+  if (user.password !== user.confirmPassword) {
+    const error = new Error('Passwords do not match');
+    return next(error);
+  }
+  const saltLength = 12;
+  // Hash password before saving
+  const hashedPassword = await argon.hash(user.password, { saltLength });
+  user.password = hashedPassword;
+  user.confirmPassword = undefined;
+  next();
+});
 User.set('toObject', { getters: true, virtuals: true });
 User.set('toJSON', { getters: true, virtuals: true });
 export default mongoose.model<IUser, IUserModel>('User', User, userCollectionName);
