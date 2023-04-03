@@ -45,6 +45,20 @@ User.pre<IUser>('save', async function (next) {
   user.confirmPassword = undefined;
   next();
 });
+User.pre<IUser>('update', async function (next) {
+  const user = this;
+  // Check if password or confirmPassword is modified before saving
+  if (!user.isModified('password') && !user.isModified('confirmPassword')) {
+    return next();
+  }
+
+  const saltLength = 12;
+  // Hash password before saving
+  const hashedPassword = await argon.hash(user.password, { saltLength });
+  user.password = hashedPassword;
+  user.confirmPassword = undefined;
+  next();
+});
 
 User.set('toObject', { getters: true, virtuals: true });
 User.set('toJSON', { getters: true, virtuals: true });

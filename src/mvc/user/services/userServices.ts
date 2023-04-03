@@ -1,4 +1,5 @@
 import config from '@/config/config';
+import { getIDfromToken } from '@/helpers/getIDfromToken';
 import ApiError from '@/helpers/libs/globals/ApiError';
 import { saveQuery } from '@/helpers/libs/globals/queryHelpers';
 import Token from '@/mvc/token/models/schema/Token';
@@ -54,8 +55,8 @@ export const updateUserById = async (userId: IUserDoc['_id'], updateBody: Update
 };
 export const resetPassword = async (resetPasswordToken: string, newPassword: string) => {
   try {
-    const resetPasswordDoc = jwt.verify(resetPasswordToken, config.jwt.secret.ACCESS) as { sub: string };
-    const user = await User.findById(resetPasswordDoc.sub);
+    const resetPasswordDocID = await getIDfromToken(resetPasswordToken, config.jwt.secret.ACCESS);
+    const user = await User.findById(resetPasswordDocID);
     if (!user) {
       throw new Error();
     }
