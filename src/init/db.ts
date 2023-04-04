@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export default async () => {
-  const mongoString = 'mongodb://localhost:27017/authPractice';
+  const mongoString = process.env.MONGODB_URL
   let connected = false;
   try {
     console.log('fattt to mongo connect...');
