@@ -7,6 +7,7 @@
     "dev": "npx nodemon --exec ts-node index.ts",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
     "lint:fix": "npm run lint -- --fix",
+    "test": "jest --projects jest.config.cjs --coverage --runInBand --detectOpenHandles",
     "in": "npm i --save",
     "ind": "npm i -D --save",
     "uin": "npm uninstall --save"
@@ -14,6 +15,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mhamadyhya1/express_ts_boiler.git"
+  },
+  "jest": {
+    "moduleFileExtensions": ["ts"],
+    "moduleDirectories": ["node_modules", "src"]
   },
   "keywords": [
     "node",
@@ -31,12 +36,14 @@
     "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
     "http-errors": "^2.0.0",
     "http-status": "^1.6.2",
     "i18next": "^22.0.6",
@@ -53,17 +60,21 @@
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.14",
     "@types/express-serve-static-core": "^4.17.31",
     "@types/i18n": "^0.13.5",
+    "@types/jest": "^29.5.0",
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.3",
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.1",
     "tsconfig-paths": "^4.1.1",

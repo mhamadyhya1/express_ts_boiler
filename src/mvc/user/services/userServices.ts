@@ -6,7 +6,6 @@ import Token from '@/mvc/token/models/schema/Token';
 import tokenTypes from '@/mvc/token/models/types/token.types';
 import * as argon2 from 'argon2';
 import httpStatus from 'http-status';
-import jwt from 'jsonwebtoken';
 import { ILogin, IUserDoc, NewRegisterUser, UpdateUserBody } from '../models/interface/IUser';
 import User from '../models/schema/User';
 

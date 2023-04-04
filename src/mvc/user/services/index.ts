@@ -1,4 +1,3 @@
-import UserServices from './userServices';
+import * as userServices from './userServices';
 
-const userServices = new UserServices();
 export default userServices;

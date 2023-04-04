@@ -21,3 +21,11 @@ export interface IUserModel extends Model<IUserDoc> {
 export type ILogin = Pick<IUser, 'email' | 'password'>;
 
 export type NewRegisterUser = Omit<IUser, 'isEmailVerified'>;
+export type NewRegisterUserTest = Omit<IUser, 'isEmailVerified' | 'role' | 'confirmPassword'>;
+
+export interface NewRegisterUserTest1 {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+}
