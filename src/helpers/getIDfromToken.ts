@@ -1,6 +1,5 @@
-const jwt_decode = require('jwt-decode');
-
-export const getIDfromToken = req => {
-  const token = req.body.token;
-  return jwt_decode(token).id;
-};
+import jwt from 'jsonwebtoken';
+export async function getIDfromToken(token: string, type: string) {
+  const id = jwt.verify(token, type) as { sub: string };
+  return id;
+}
