@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import routes from './src/init/routes'
 import db from './src/init/db';
 import theApp from './src/init/theApp';
+import { errorLogger } from '@/middlewares/error/errorLogger';
+import { errorResponder } from '@/middlewares/error/errorResponder';
+import { invalidPathHandler } from '@/middlewares/error/invalidPathHandler';
 dotenv.config();
 const app: Express = express();
 
@@ -18,7 +21,9 @@ routes(app);
 app.use('/', (req, res) => {
   res.send('Hello from ExpressJS MhamadYahya');
 });
-
+app.use(errorLogger)
+app.use(errorResponder)
+app.use(invalidPathHandler)
 function print(path, layer) {
   if (layer.route) {
     layer.route.stack.forEach(print.bind(null, path.concat(split(layer.route.path))));

@@ -2,7 +2,6 @@ import { FilterQuery, Model, Query } from 'mongoose';
 import { limitNumber } from '@helpers/libs/globals/globalVariables';
 import { BaseModel } from '@helpers/libs/BaseModel';
 import * as Mongoose from 'mongoose';
-import ApiError from './ApiError';
 
 export const getObjectId = (id: string) => new Mongoose.Types.ObjectId(id);
 
@@ -23,7 +22,7 @@ export const getAllQuery = async (query: Query<any, any>, page?: number, populat
         .lean({ virtuals: true })
         .exec();
   } catch (e) {
-    throw new ApiError(400, e);
+    throw new Error(e.toString())
   }
 };
 
@@ -33,7 +32,7 @@ export const getOneQuery = async (query: Query<any, any>, populate?: any) => {
       return query.populate(populate).lean().exec();
     } else return query.lean().exec();
   } catch (e) {
-    throw new ApiError(400, e);
+    throw new Error(e.toString())
   }
 };
 export const getOneQueryAggregate = async (query: FilterQuery<any>, populate?: any) => {
@@ -42,7 +41,7 @@ export const getOneQueryAggregate = async (query: FilterQuery<any>, populate?: a
       return query.populate(populate).lean().exec();
     } else return query.lean().exec();
   } catch (e) {
-    throw new ApiError(400, e);
+    throw new Error(e.toString())
   }
 };
 
@@ -50,7 +49,7 @@ export const executeQuery = async (query: Query<any, any>) => {
   try {
     return query.lean().exec();
   } catch (e) {
-    throw new ApiError(400, e);
+    throw new Error(e.toString())
   }
 };
 
@@ -58,7 +57,7 @@ export const saveQuery = async (model: BaseModel) => {
   try {
     return model.save();
   } catch (e) {
-    throw new ApiError(400, e);
+    throw new Error(e.toString())
   }
 };
 
@@ -81,7 +80,7 @@ export const updateQuery = async (model: Model<any>, map: any, doCheckForExisten
       throw new Error('No data found to update');
     }
   } catch (e) {
-    throw new ApiError(400, e);
+    throw new Error(e.toString())
   }
 };
 
@@ -102,7 +101,7 @@ export const deleteQuery = async (model: Model<any>, id: string, doCheckForExist
       throw 'No data found to update';
     }
   } catch (e) {
-    throw new ApiError(400, e);
+    throw new Error(e.toString())
   }
 };
 
@@ -121,6 +120,6 @@ export const getRandomDataFromModel = async (model: Model<any>) => {
     }
     return randomData;
   } catch (e) {
-    throw new ApiError(400, e);
+    throw new Error(e.toString())
   }
 };

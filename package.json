@@ -17,8 +17,10 @@
     "url": "git+https://github.com/mhamadyhya1/express_ts_boiler.git"
   },
   "jest": {
-    "moduleFileExtensions": ["ts"],
-    "moduleDirectories": ["node_modules", "src"]
+    "setupFiles": [
+      "./src/helpers/loadenv.ts"
+    ],
+    "testEnvironment": "node"
   },
   "keywords": [
     "node",
@@ -64,13 +66,13 @@
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
-    "@types/express": "^4.17.14",
+    "@types/express": "^4.17.17",
     "@types/express-serve-static-core": "^4.17.31",
     "@types/i18n": "^0.13.5",
     "@types/jest": "^29.5.0",
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.3",
-    "@types/node": "^18.11.9",
+    "@types/node": "^18.15.11",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "supertest": "^6.3.3",
@@ -79,11 +81,5 @@
     "tsc-alias": "^1.8.1",
     "tsconfig-paths": "^4.1.1",
     "typescript": "^4.9.3"
-  },
-  "jest": {
-    "setupFiles": [
-      "./src/helpers/loadenv.ts"
-    ],
-    "testEnvironment": "node"
   }
 }
