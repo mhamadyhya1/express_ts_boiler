@@ -17,7 +17,7 @@ export const verifyToken = catchAsync(async (req: Request, res: Response, next: 
   const payload = jwt.verify(token, config.jwt.secret.ACCESS) as { sub: string };
   const roleCheck = await User.findById(payload.sub).populate({ path: 'role', select: 'name' });
   const roleName = roleCheck.role.name;
-  if (roleName !== 'user') {
+  if (roleName !== 'admin') {
     throw new AppError(httpStatus.UNAUTHORIZED,'Cannot Access');
   }
   if (typeof payload.sub !== 'string') {
