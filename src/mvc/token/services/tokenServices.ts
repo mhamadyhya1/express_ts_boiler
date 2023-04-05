@@ -8,14 +8,15 @@ import { ITokenDoc } from '../models/interface/IToken';
 import Token from '../models/schema/Token';
 import tokenTypes from '../models/types/token.types';
 import AppError from '@/middlewares/error/AppError';
-
+import crypto from "crypto"
 const generateToken = (userId: mongoose.Types.ObjectId, expires: Moment, secret: string): string => {
   const payload = {
     sub: userId,
     iat: moment().unix(),
     exp: expires.unix(),
   };
-  return jwt.sign(payload, secret);
+  const hashed = crypto.createHmac('sha256',secret)
+  return jwt.sign(payload, hashed);
 };
 
 export const saveToken = async (token: string, userId: mongoose.Types.ObjectId, expires: Moment, type: string): Promise<ITokenDoc> => {
